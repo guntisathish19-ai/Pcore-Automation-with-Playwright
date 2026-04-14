@@ -7,9 +7,8 @@ test.beforeEach(async ({ page }) => {
     const poManager = new POManager(page);
     const loginPage = poManager.getLoginPageObject();
     await loginPage.goto();
-    //const utils = poManager.getUtilsObject();
-    //const map = await utils.getTestData("Valid user");
     const message = await loginPage.login(data.username, data.password);
+    expect(message).toBe(" Home ")
 
 });
 
@@ -23,6 +22,18 @@ test('Timesheet update test', async ({ page }) => {
     await mainPage.updateHours(); 
     const message = await mainPage.validateTotalHours();
     expect(message).toBe("Timesheet saved successfully");
+
+});
+
+test('Certificate upload', async ({page})=>{
+
+    const poManager = new POManager(page);
+    const contentPage = poManager.getContentPageObject();
+    contentPage.getHumanResource();
+    const mainPage = poManager.getMainPageobject();
+    await mainPage.getQualificationTab();
+    await mainPage.updateCertificate();
+
 
 });
 

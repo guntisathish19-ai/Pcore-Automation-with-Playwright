@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test.only('Timesheet update test', async ({ page }) => {
+test('Timesheet update test', async ({ page }) => {
 
     //Login page
     await page.goto("https://pyramidcore.pyramidci.com/security/PCILoginNew.aspx", { waitUntil: 'domcontentloaded' });
@@ -47,7 +47,7 @@ test.only('Timesheet update test', async ({ page }) => {
 
 });
 
-test('Certification upload test', async ({ page }) => {
+test.only('Certification upload test', async ({ page }) => {
 
     //Login page
     await page.goto("https://pyramidcore.pyramidci.com/security/PCILoginNew.aspx", { waitUntil: 'domcontentloaded' })
@@ -56,7 +56,7 @@ test('Certification upload test', async ({ page }) => {
     await page.locator("#pydLogin_btnLogin").click();
     await page.waitForLoadState('networkidle');
 
-    //Navigate to Timesheet page
+    //Navigate to Human Resource page
     const contentPageFrame = page.frameLocator("frame[name='contents']");
     await contentPageFrame.locator("#PCIMenut41").click();
     await contentPageFrame.locator("#PCIMenut43").click();
@@ -67,6 +67,7 @@ test('Certification upload test', async ({ page }) => {
     await mainPageFrame.locator("input[value='Qualification']").click();
 
     //Certificate section
+    try{
     await mainPageFrame.locator("select[name='ddlCertificate']").selectOption("The Complete Prompt Engineering for AI");
     await mainPageFrame.locator("#ddlCertificateProvider").waitFor({ state: "visible" });
     await mainPageFrame.locator("#ddlCertificateProvider").selectOption({ value: "6" });
@@ -77,6 +78,11 @@ test('Certification upload test', async ({ page }) => {
     await mainPageFrame.locator("input#txtcert_date").click();
     await mainPageFrame.locator(".ui-state-default.ui-state-highlight").waitFor({ state: "visible" });
     await mainPageFrame.locator(".ui-state-default.ui-state-highlight").click();
+    console.log(await mainPageFrame.locator("#txtcert_date").inputValue())
+    }
+    catch(e){
+        console.log(e)
+    }
 
 
     await page.pause();

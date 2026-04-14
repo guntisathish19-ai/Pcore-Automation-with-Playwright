@@ -11,6 +11,13 @@ export class MainPage {
         this.totalHoursEle = this.mainPageFrame.locator(".weekTotalLow").nth(0);
         this.save = this.mainPageFrame.getByRole("button", { name: "Save" });
         this.message = this.mainPageFrame.locator(".notifier__notification-message");
+        this.qualification = this.mainPageFrame.locator("input[value='Qualification']");
+        this.certificate = this.mainPageFrame.locator("select[name='ddlCertificate']");
+        this.certificateProvider = this.mainPageFrame.locator("#ddlCertificateProvider");
+        this.functionalArea = this.mainPageFrame.locator("#ddlCertificateCayegory");
+        this.uploadCertificate = this.mainPageFrame.locator("#FileUploadCertificate");
+        this.date = this.mainPageFrame.locator("input#txtcert_date");
+        this.todayDate = this.mainPageFrame.locator(".ui-state-default.ui-state-highlight");
     }
 
     async updateTicketDetails() {
@@ -45,5 +52,27 @@ export class MainPage {
             this.message = await this.message.textContent();
         }
         return this.message;
+    }
+
+    async getQualificationTab(){
+        await this.qualification.click();
+    }
+
+    async updateCertificate(){
+        try{
+            await this.certificate.selectOption("The Complete Prompt Engineering for AI");
+            await this.certificateProvider.waitFor({ state: "visible" });
+            await this.certificateProvider.selectOption({ value: "6" });
+            await this.certificateProvider.selectOption({ label: "Udemy" });
+            await this.functionalArea.locator("option", { hasText: "AI/ML" }).waitFor();
+            await this.functionalArea.selectOption("AI/ML");
+            await this.uploadCertificate.setInputFiles("C:/Users/SATHISH.KUMAR/Downloads/AI Boot camp 2025.pdf");
+            await this.date.click();
+            await this.todayDate.waitFor({ state: "visible" });
+            await this.todayDate.click();
+        }
+        catch(e){
+            console.log(e)
+        }
     }
 }
