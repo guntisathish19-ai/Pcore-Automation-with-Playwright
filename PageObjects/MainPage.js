@@ -18,6 +18,19 @@ export class MainPage {
         this.uploadCertificate = this.mainPageFrame.locator("#FileUploadCertificate");
         this.date = this.mainPageFrame.locator("input#txtcert_date");
         this.todayDate = this.mainPageFrame.locator(".ui-state-default.ui-state-highlight");
+        this.contact = this.mainPageFrame.locator("#ImgbtnContactInfo");
+        this.informationType = this.mainPageFrame.locator("//select[@name='ddlMailType']");
+        this.emailId = this.mainPageFrame.locator("#txtEmailID");
+        this.country = this.mainPageFrame.locator("#ddlcountry");
+        this.mobileNo = this.mainPageFrame.locator("#txtNo");
+        this.add = this.mainPageFrame.locator("#btnAdd");
+        this.recordAdded = this.mainPageFrame.locator("//b");
+        this.relation = this.mainPageFrame.locator("#ddlRelation")
+        this.contactsTable = this.mainPageFrame.locator(".datagrid tr");
+        this.branch = this.mainPageFrame.locator("#ddlBranch");
+        this.department = this.mainPageFrame.locator("#ddlDept")
+        this.status = this.mainPageFrame.locator("#ddlFreezeStatus")
+        this.show = this.mainPageFrame.getByRole("button", {name:'Show'});
     }
 
     async updateTicketDetails() {
@@ -42,7 +55,7 @@ export class MainPage {
         const hours = await this.totalHoursEle.textContent();
         const totalHours = await parseInt(hours.split(":")[0])
         console.log("Total hours :" + totalHours);
-        if (totalHours > 40){
+        if (totalHours > 40) {
             this.message = "Total hours for a week should be < = 40, please review!";
             console.log(this.message);
         }
@@ -54,25 +67,148 @@ export class MainPage {
         return this.message;
     }
 
-    async getQualificationTab(){
+    async getQualificationTab() {
         await this.qualification.click();
     }
 
-    async updateCertificate(){
-        try{
+    async updateCertificate() {
+        try {
+            let upload = false;
             await this.certificate.selectOption("The Complete Prompt Engineering for AI");
             await this.certificateProvider.waitFor({ state: "visible" });
             await this.certificateProvider.selectOption({ value: "6" });
             await this.certificateProvider.selectOption({ label: "Udemy" });
             await this.functionalArea.locator("option", { hasText: "AI/ML" }).waitFor();
             await this.functionalArea.selectOption("AI/ML");
-            await this.uploadCertificate.setInputFiles("C:/Users/SATHISH.KUMAR/Downloads/AI Boot camp 2025.pdf");
-            await this.date.click();
-            await this.todayDate.waitFor({ state: "visible" });
-            await this.todayDate.click();
+            if(!upload){
+                await this.uploadCertificate.setInputFiles("C:/Users/SATHISH.KUMAR/Downloads/AI Boot camp 2025.pdf");
+                await this.date.click();
+                await this.todayDate.waitFor({ state: "visible" });
+                await this.todayDate.click();
+                upload = true;
+            }
+            return upload;
         }
-        catch(e){
-            console.log(e)
+        catch (error) {
+            console.log(error)
+            throw error;
         }
+    }
+
+    async getContact() {
+        await this.contact.click();
+        await this.page.waitForLoadState('domcontentloaded');
+    }
+
+    async addContact(contactType, emailOrContact, mobileNo, relation) {
+        try {
+            await this.informationType.selectOption(contactType);
+            await this.emailId.type(emailOrContact);
+            await this.country.selectOption("India (+91)")
+            await this.mobileNo.type(mobileNo);
+            await this.relation.selectOption(relation);
+            await this.add.click();
+            await this.recordAdded.waitFor({ state: 'visible' });
+            const message = await this.recordAdded.textContent();
+            console.log(message);
+            return message;
+        }
+        catch (error) {
+            console.log(error)
+            throw error;
+        }
+
+    }
+
+    async updateContact(contact, mobileNo) {
+        try {
+            await this.mainPageFrame.locator(".datagrid").waitFor({ state: 'visible' });
+            await this.mainPageFrame.locator(".datagrid tr").first().waitFor();
+            const rows = this.contactsTable;
+            const rowcount = await rows.count();
+            let found = false;
+            for (let i = 0; i < rowcount; i++) {
+                const row = rows.nth(i)
+                const firstCellText = (await row.locator('td').nth(0).textContent())?.trim();
+                if (firstCellText === contact) {
+                    found = true;
+                    await row.locator('td').nth(6).click();
+                    await this.page.waitForTimeout(500);
+                    break;
+                }
+            }
+            await this.mobileNo.clear();
+            await this.mobileNo.fill(mobileNo);
+            await this.add.click();
+            await this.recordAdded.waitFor({ state: 'visible' });
+            const message = await this.recordAdded.textContent();
+            console.log(message);
+            if(!found){
+                throw new Error('contact, "${contact}" not found');
+            } 
+            return message 
+
+        }
+        catch (error) {
+            console.log(error)
+            throw error;
+        }
+    }
+
+    async deleteContact(contact) {
+        try {
+            await this.mainPageFrame.locator(".datagrid").waitFor({ state: 'visible' });
+            await this.mainPageFrame.locator(".datagrid tr").first().waitFor();
+            const dialogPromise = new Promise(resolve => {
+                this.page.once('dialog', async dialog => {
+                    console.log("Alert message:" + dialog.message());
+                    await dialog.accept();
+                    resolve();
+                });
+            });
+            const rows = await this.mainPageFrame.locator(".datagrid tr");
+            const rowcount = await rows.count();
+            let found = false;
+            for (let i = 0; i < rowcount; i++) {
+                const row = rows.nth(i)
+                const firstCellText = (await row.locator('td').nth(0).textContent())?.trim();
+                if (firstCellText === contact) {
+                    await row.locator('td').nth(7).click();
+                    found = true;
+                    break;
+                }
+            }
+
+            if(!found){
+                throw new Error(`Contact "${contact}" not found`);
+            }
+            //await this.page.waitForTimeout(500);
+            //const message = await dialogPromise;
+            await dialogPromise
+            return found;
+        }
+        catch (error) {
+            console.log(error)
+            throw error;
+        }
+    }
+    async verifySupervisor(branch, department, employeeid){
+        try{
+            await this.branch.selectOption(branch)
+            await this.department.selectOption(department)
+            await this.status.selectOption("Active");
+            await this.show.click();
+            await this.contactsTable.first().waitFor({state: 'visible'});
+            const row = await this.contactsTable.filter({hasText: `${employeeid}`});
+            const message = await row.first().locator('td').nth(5).textContent();
+            console.log(message)
+            return message;
+        }
+        catch(error){
+            console.log(error);
+            throw error;
+        }
+
+
     }
 }

@@ -25,6 +25,43 @@ test('Timesheet update test', async ({ page }) => {
 
 });
 
+test('Add Emergency contact detail', async ({page})=>{
+    
+    const poManager = new POManager(page);
+    const contentPage = poManager.getContentPageObject();
+    await contentPage.getHumanResource();
+    const mainPage = poManager.getMainPageobject();
+    await mainPage.getContact();
+    const message = await mainPage.addContact(data.informationtype, data.contactname, data.mobileno, data.relation);
+    //await page.pause()
+    expect(message).toBe(" Record Added successfully");
+    
+});
+
+test("Update contact details", async ({page})=>{
+
+    const poManager = new POManager(page);
+    const contentPage = poManager.getContentPageObject();
+    await contentPage.getHumanResource();
+    const mainPage = poManager.getMainPageobject();
+    await mainPage.getContact();
+    const message = await mainPage.updateContact(data.informationtype, data.mobileno)
+    expect(message).toBe(" Record Updated successfully");
+
+});
+
+test('Delete Emergency contact details', async({page})=>{
+
+    const poManager = new POManager(page);
+    const contentPage = poManager.getContentPageObject();
+    await contentPage.getHumanResource();
+    const mainPage = poManager.getMainPageobject();
+    await mainPage.getContact();
+    const message = await mainPage.deleteContact(data.informationtype);
+    expect(message).toBeTruthy
+
+})
+
 test('Certificate upload', async ({page})=>{
 
     const poManager = new POManager(page);
@@ -32,8 +69,18 @@ test('Certificate upload', async ({page})=>{
     contentPage.getHumanResource();
     const mainPage = poManager.getMainPageobject();
     await mainPage.getQualificationTab();
-    await mainPage.updateCertificate();
+    const upload = await mainPage.updateCertificate();
+    expect(upload).toBeTruthy;
 
+});
+
+test.only('Verify supervisor', async ({page})=>{
+    const poManager = new POManager(page);
+    const contentPage = poManager.getContentPageObject();
+    contentPage.navigateToSupervisorMenu();
+    const mainPage = poManager.getMainPageobject();
+    const supervisor = await mainPage.verifySupervisor(data.branch, data.department, data.employeeid);
+    expect(supervisor).toBe(data.supervisorname)
 
 });
 
