@@ -1,6 +1,4 @@
 {
-    "username" : "sathish.kumar@celsiortech.com",
-    "password" : "Raju@789",
     "informationtype" : "Emergency",
     "contactname" : "Raju",
     "mobileno" : "8897382002",
@@ -9,5 +7,7 @@
     "department" : "Software",
     "employeename" : "G Sathish Kumar",
     "employeeid" : "CELN00189",
-    "supervisorname" : "Manasani Rashmi"
+    "supervisorname" : "Manasani Rashmi",
+    "username" : "sathish.kumar@celsiortech.com",
+    "password" : "Raju@789"
 }

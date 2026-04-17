@@ -1,35 +1,55 @@
-// @ts-check
+
 import { defineConfig, devices } from '@playwright/test';
+import { worker } from 'node:cluster';
+import { Worker } from 'node:worker_threads';
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-/**
- * @see https://playwright.dev/docs/test-configuration
- */
 const config = ({
   testDir: './tests',
     timeout: 40*1000,
+    //retries: 1,
+    workers: 5,
   expect:{
-    timeout: 40*1000,
+    timeout: 30*1000,
   },
   reporter: [['html', { open: 'on-failure' }]],
-  
-  use: {
-  
-    trace: 'on',
-    browserName: 'chromium',
-    screenshot: 'on',
-    headless: false,
-
-   
-  },
-
+  projects: [
+    {
+      name: 'chrome',
+      use: {
+        trace: 'only-on-failure',
+        browserName: 'chromium',
+        screenshot: 'only-on-failure',
+        headless: false, 
+        launchOptions: {
+          args: ['--start-maximized'],
+        },
+        viewport:null,
+      },
+    },
+    {
+      name: 'webkit',
+      use: {
+        trace: 'only-on-failure',
+        browserName: 'webkit',
+        screenshot: 'only-on-failure',
+        headless: false, 
+      },
+    },
+    {
+      name: 'firefox',
+      use: {
+        trace: 'only-on-failure',
+        browserName: 'firefox',
+        screenshot: 'only-on-failure',
+        headless: false, 
+        launchOptions: {
+          args: ['--start-maximized'],
+        },
+        viewport:null,
+      }
+    }
+  ]
 });
 
 module.exports = config;

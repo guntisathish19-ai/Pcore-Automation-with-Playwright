@@ -16,20 +16,17 @@ export class ContentPage{
     async getMyTimesheet(){
     await this.timesheet.click();
     await this.myTimesheet.click();
-    await this.page.waitForLoadState('networkidle');
     }
 
     async getHumanResource(){
     await this.humanResource.click();
     await this.view.click();
-    await this.page.waitForLoadState('networkidle');
     }
 
     async navigateToSupervisorMenu(){
         await this.infoDesk.click();
         await this.reports.click();
         await this.yourSupervisor.click()
-        await this.page.waitForLoadState('networkidle');
     }
 
 }

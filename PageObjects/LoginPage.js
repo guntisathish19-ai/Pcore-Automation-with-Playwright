@@ -9,16 +9,17 @@ export class LoginPage {
         this.homeEle = this.topPage.locator("a[href='../Home/PCIhome.aspx'] span");
     }
 
-    async goto() {
+    async goto() { 
         await this.page.goto("https://pyramidcore.pyramidci.com/security/PCILoginNew.aspx", { waitUntil: 'domcontentloaded' });
-    }
+        //await this.page.waitForLoadState('networkidle');
+    }   
 
     async login(userName, password) {
         try {
             await this.userIdElement.fill(userName);
             await this.pwdElement.fill(password);
             await this.loginButton.click();
-            await this.page.waitForLoadState('networkidle');
+            await this.homeEle.waitFor({state: 'visible'});
             console.log("Login succesfull with user:" +userName);
             return await this.homeEle.textContent();
         }
@@ -27,6 +28,12 @@ export class LoginPage {
             throw error;
         }
 
+    }
+
+    async navigateToPcore(){
+        await this.page.goto("https://pyramidcore.pyramidci.com/security/PCILoginNew.aspx", { waitUntil: 'domcontentloaded' });
+        await this.page.waitForLoadState('networkidle');
+        return await this.homeEle.textContent();
     }
 
 }
