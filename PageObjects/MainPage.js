@@ -30,7 +30,8 @@ export class MainPage {
         this.branch = this.mainPageFrame.locator("#ddlBranch");
         this.department = this.mainPageFrame.locator("#ddlDept")
         this.status = this.mainPageFrame.locator("#ddlFreezeStatus")
-        this.show = this.mainPageFrame.getByRole("button", {name:'Show'});
+        this.show = this.mainPageFrame.getByRole("button", { name: 'Show' });
+        this.month = this.mainPageFrame.locator("#ddlMonth");
     }
 
     async updateTicketDetails() {
@@ -61,7 +62,6 @@ export class MainPage {
         }
         else {
             await this.save.click();
-            //expect(await this.message.textContent()).toBe("Timesheet saved successfully");
             this.message = await this.message.textContent();
         }
         return this.message;
@@ -74,14 +74,15 @@ export class MainPage {
     async updateCertificate() {
         try {
             let upload = false;
-            await this.certificate.selectOption("The Complete Prompt Engineering for AI");
+            await this.certificate.waitFor({ state: 'visible' });
+            await this.certificate.selectOption("Playwright with JavaScript");
             await this.certificateProvider.waitFor({ state: "visible" });
-            await this.certificateProvider.selectOption({ value: "6" });
+            //await this.certificateProvider.selectOption({ value: "6" });
             await this.certificateProvider.selectOption({ label: "Udemy" });
-            await this.functionalArea.locator("option", { hasText: "AI/ML" }).waitFor();
-            await this.functionalArea.selectOption("AI/ML");
-            if(!upload){
-                await this.uploadCertificate.setInputFiles("C:/Users/SATHISH.KUMAR/Downloads/AI Boot camp 2025.pdf");
+            await this.functionalArea.locator("option", { hasText: "QA Testing" }).waitFor();
+            await this.functionalArea.selectOption("QA Testing");
+            if (!upload) {
+                await this.uploadCertificate.setInputFiles("C:/Users/SATHISH.KUMAR/Downloads/Palywright automation certificate.pdf");
                 await this.date.click();
                 await this.todayDate.waitFor({ state: "visible" });
                 await this.todayDate.click();
@@ -103,9 +104,17 @@ export class MainPage {
     async addContact(contactType, emailOrContact, mobileNo, relation) {
         try {
             await this.informationType.selectOption(contactType);
-            await this.emailId.type(emailOrContact);
-            await this.country.selectOption("India (+91)")
-            await this.mobileNo.type(mobileNo);
+            await this.emailId.waitFor({ state: 'visible' });
+            await this.emailId.click();
+            await this.emailId.press('Control+A');
+            await this.emailId.press('Delete');
+            await this.emailId.type(emailOrContact, { delay: 50 });
+            await this.country.selectOption({ label: "India (+91)" });
+            await this.mobileNo.waitFor({ state: 'visible' });
+            await this.mobileNo.click();
+            await this.mobileNo.press('Control+A');
+            await this.mobileNo.press('Delete');
+            await this.mobileNo.type(mobileNo, { delay: 50 });
             await this.relation.selectOption(relation);
             await this.add.click();
             await this.recordAdded.waitFor({ state: 'visible' });
@@ -122,31 +131,18 @@ export class MainPage {
 
     async updateContact(contact, mobileNo) {
         try {
-            await this.mainPageFrame.locator(".datagrid").waitFor({ state: 'visible' });
-            await this.mainPageFrame.locator(".datagrid tr").first().waitFor();
-            const rows = this.contactsTable;
-            const rowcount = await rows.count();
-            let found = false;
-            for (let i = 0; i < rowcount; i++) {
-                const row = rows.nth(i)
-                const firstCellText = (await row.locator('td').nth(0).textContent())?.trim();
-                if (firstCellText === contact) {
-                    found = true;
-                    await row.locator('td').nth(6).click();
-                    await this.page.waitForTimeout(500);
-                    break;
-                }
-            }
-            await this.mobileNo.clear();
-            await this.mobileNo.fill(mobileNo);
+            await this.contactsTable.first().waitFor({ state: 'visible' });
+            const row = await this.contactsTable.filter({ hasText: `${contact}` });
+            await row.first().locator('td').nth(6).click();
+            await this.mobileNo.click();
+            await this.mobileNo.press('Control+A');
+            await this.mobileNo.press('Delete');
+            await this.mobileNo.type(mobileNo, { delay: 50 });
             await this.add.click();
             await this.recordAdded.waitFor({ state: 'visible' });
             const message = await this.recordAdded.textContent();
             console.log(message);
-            if(!found){
-                throw new Error('contact, "${contact}" not found');
-            } 
-            return message 
+            return message
 
         }
         catch (error) {
@@ -179,11 +175,9 @@ export class MainPage {
                 }
             }
 
-            if(!found){
+            if (!found) {
                 throw new Error(`Contact "${contact}" not found`);
             }
-            //await this.page.waitForTimeout(500);
-            //const message = await dialogPromise;
             await dialogPromise
             return found;
         }
@@ -192,23 +186,58 @@ export class MainPage {
             throw error;
         }
     }
-    async verifySupervisor(branch, department, employeeid){
-        try{
+    async verifySupervisor(branch, department, employeeid) {
+        try {
             await this.branch.selectOption(branch)
             await this.department.selectOption(department)
             await this.status.selectOption("Active");
             await this.show.click();
-            await this.contactsTable.first().waitFor({state: 'visible'});
-            const row = await this.contactsTable.filter({hasText: `${employeeid}`});
+            await this.contactsTable.first().waitFor({ state: 'visible' });
+            const row = await this.contactsTable.filter({ hasText: `${employeeid}` });
             const message = await row.first().locator('td').nth(5).textContent();
             console.log(message)
             return message;
         }
-        catch(error){
+        catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async verifyDOBofEmployee(branch, department, month, employeeid) {
+        try {
+            await this.branch.selectOption(branch);
+            await this.department.selectOption(department);
+            await this.month.selectOption(month);
+            await this.show.click();
+            await this.contactsTable.first().waitFor({ state: 'visible' });
+            const row = this.contactsTable.filter({ hasText: `${employeeid}` });
+            const message = await row.first().locator('td').nth(5).textContent();
+            console.log(message)
+            return message;
+        }
+        catch (error) {
             console.log(error);
             throw error;
         }
 
+    }
 
+    async verifyAnniversaryofEmployee(branch, department, month, employeeid){
+         try {
+            await this.branch.selectOption(branch);
+            await this.department.selectOption(department);
+            await this.month.selectOption(month);
+            await this.show.click();
+            await this.contactsTable.first().waitFor({ state: 'visible' });
+            const row = this.contactsTable.filter({ hasText: `${employeeid}` });
+            const message = await row.first().locator('td').nth(6).textContent();
+            console.log(message)
+            return message;
+        }
+        catch (error) {
+            console.log(error);
+            throw error;
+        }
     }
 }

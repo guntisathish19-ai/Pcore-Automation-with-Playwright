@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "ASP.NET_SessionId",
+      "value": "eph1khjn050a0dg5ribkesgy",
+      "domain": "pyramidcore.pyramidci.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "myCookie",
+      "value": "",
+      "domain": "pyramidcore.pyramidci.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "user",
+      "value": "G Sathish  Kumar",
+      "domain": "pyramidcore.pyramidci.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mainUserId",
+      "value": "9458",
+      "domain": "pyramidcore.pyramidci.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}
