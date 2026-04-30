@@ -30,7 +30,8 @@ export class MainPage {
         this.branch = this.mainPageFrame.locator("#ddlBranch");
         this.department = this.mainPageFrame.locator("#ddlDept")
         this.status = this.mainPageFrame.locator("#ddlFreezeStatus")
-        this.show = this.mainPageFrame.getByRole("button", {name:'Show'});
+        this.show = this.mainPageFrame.getByRole("button", { name: 'Show' });
+        this.month = this.mainPageFrame.locator("#ddlMonth");
     }
 
     async updateTicketDetails() {
@@ -73,15 +74,15 @@ export class MainPage {
     async updateCertificate() {
         try {
             let upload = false;
-            await this.certificate.waitFor({state: 'visible'});
-            await this.certificate.selectOption("The Complete Prompt Engineering for AI");
+            await this.certificate.waitFor({ state: 'visible' });
+            await this.certificate.selectOption("Playwright with JavaScript");
             await this.certificateProvider.waitFor({ state: "visible" });
-            await this.certificateProvider.selectOption({ value: "6" });
+            //await this.certificateProvider.selectOption({ value: "6" });
             await this.certificateProvider.selectOption({ label: "Udemy" });
-            await this.functionalArea.locator("option", { hasText: "AI/ML" }).waitFor();
-            await this.functionalArea.selectOption("AI/ML");
-            if(!upload){
-                await this.uploadCertificate.setInputFiles("C:/Users/SATHISH.KUMAR/Downloads/AI Boot camp 2025.pdf");
+            await this.functionalArea.locator("option", { hasText: "QA Testing" }).waitFor();
+            await this.functionalArea.selectOption("QA Testing");
+            if (!upload) {
+                await this.uploadCertificate.setInputFiles("C:/Users/SATHISH.KUMAR/Downloads/Palywright automation certificate.pdf");
                 await this.date.click();
                 await this.todayDate.waitFor({ state: "visible" });
                 await this.todayDate.click();
@@ -130,8 +131,8 @@ export class MainPage {
 
     async updateContact(contact, mobileNo) {
         try {
-            await this.contactsTable.first().waitFor({state: 'visible'});
-            const row = await this.contactsTable.filter({hasText: `${contact}`});
+            await this.contactsTable.first().waitFor({ state: 'visible' });
+            const row = await this.contactsTable.filter({ hasText: `${contact}` });
             await row.first().locator('td').nth(6).click();
             await this.mobileNo.click();
             await this.mobileNo.press('Control+A');
@@ -141,7 +142,7 @@ export class MainPage {
             await this.recordAdded.waitFor({ state: 'visible' });
             const message = await this.recordAdded.textContent();
             console.log(message);
-            return message 
+            return message
 
         }
         catch (error) {
@@ -174,7 +175,7 @@ export class MainPage {
                 }
             }
 
-            if(!found){
+            if (!found) {
                 throw new Error(`Contact "${contact}" not found`);
             }
             await dialogPromise
@@ -185,19 +186,56 @@ export class MainPage {
             throw error;
         }
     }
-    async verifySupervisor(branch, department, employeeid){
-        try{
+    async verifySupervisor(branch, department, employeeid) {
+        try {
             await this.branch.selectOption(branch)
             await this.department.selectOption(department)
             await this.status.selectOption("Active");
             await this.show.click();
-            await this.contactsTable.first().waitFor({state: 'visible'});
-            const row = await this.contactsTable.filter({hasText: `${employeeid}`});
+            await this.contactsTable.first().waitFor({ state: 'visible' });
+            const row = await this.contactsTable.filter({ hasText: `${employeeid}` });
             const message = await row.first().locator('td').nth(5).textContent();
             console.log(message)
             return message;
         }
-        catch(error){
+        catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async verifyDOBofEmployee(branch, department, month, employeeid) {
+        try {
+            await this.branch.selectOption(branch);
+            await this.department.selectOption(department);
+            await this.month.selectOption(month);
+            await this.show.click();
+            await this.contactsTable.first().waitFor({ state: 'visible' });
+            const row = this.contactsTable.filter({ hasText: `${employeeid}` });
+            const message = await row.first().locator('td').nth(5).textContent();
+            console.log(message)
+            return message;
+        }
+        catch (error) {
+            console.log(error);
+            throw error;
+        }
+
+    }
+
+    async verifyAnniversaryofEmployee(branch, department, month, employeeid){
+         try {
+            await this.branch.selectOption(branch);
+            await this.department.selectOption(department);
+            await this.month.selectOption(month);
+            await this.show.click();
+            await this.contactsTable.first().waitFor({ state: 'visible' });
+            const row = this.contactsTable.filter({ hasText: `${employeeid}` });
+            const message = await row.first().locator('td').nth(6).textContent();
+            console.log(message)
+            return message;
+        }
+        catch (error) {
             console.log(error);
             throw error;
         }

@@ -2,27 +2,7 @@ const { POManager } = require('../PageObjects/POManager');
 const { test, expect } = require('@playwright/test');
 const { BrowserSetup } = require('../BrowserSetup')
 const data = JSON.parse(JSON.stringify(require('../Utils/TestData.json')));
-let webcontext;
-let poManager;
-let contentPage;
-let mainPage;
 
-test.describe.configure({mode: 'parallel'});
-
-/**test.beforeAll(async ({browser})=>{
-    const browsersetup = new BrowserSetup(browser);
-    webcontext = await browsersetup.login(data.username, data.password);
-});
-
-test.beforeEach(async () => {
-    const page = await webcontext.newPage()
-    poManager = new POManager(page);
-    const loginPage = poManager.getLoginPageObject();
-    const message = await loginPage.navigateToPcore();
-    expect(message).toBe(" Home ");
-    contentPage = poManager.getContentPageObject();
-    mainPage = poManager.getMainPageobject();
-});*/
 
 test.beforeEach(async ({page}) => {
 
@@ -83,10 +63,10 @@ test('Delete Emergency contact details', async({page})=>{
 
 })
 
-test.only('Certificate upload', async ({page})=>{
+test('Upload a certificate of a course', async ({page})=>{
 
     const poManager = new POManager(page);
-    const contentPage = poManager.getContentPageObject();
+    const contentPage = poManagergetContentPageObject();
     contentPage.getHumanResource();
     const mainPage = poManager.getMainPageobject();
     await mainPage.getQualificationTab();
@@ -95,7 +75,7 @@ test.only('Certificate upload', async ({page})=>{
 
 });
 
-test('Verify supervisor', async ({page})=>{
+test('Verify supervisor of an Employee', async ({page})=>{
 
     const poManager = new POManager(page);
     const contentPage = poManager.getContentPageObject();
@@ -103,6 +83,28 @@ test('Verify supervisor', async ({page})=>{
     const mainPage = poManager.getMainPageobject();
     const supervisor = await mainPage.verifySupervisor(data.branch, data.department, data.employeeid);
     expect(supervisor).toBe(data.supervisorname)
+
+});
+
+test('verify DOB of an Employee', async ({page})=>{
+
+    const poManager = new POManager(page);
+    const contentPage = poManager.getContentPageObject();
+    contentPage.navigateDOBandAnniversary();
+    const mainPage = poManager.getMainPageobject();
+    const dob = await mainPage.verifyDOBofEmployee(data.branch, data.department, data.month, data.employeeid);
+    expect(dob).toBe(data.dob)
+
+});
+
+test.only('verify Anniversary of an Employee', async ({page})=>{
+
+    const poManager = new POManager(page);
+    const contentPage = poManager.getContentPageObject();
+    contentPage.navigateDOBandAnniversary();
+    const mainPage = poManager.getMainPageobject();
+    const anniversary = await mainPage.verifyAnniversaryofEmployee(data.branch, data.department, data.month, data.employeeid);
+    expect(anniversary).toBe(data.anniversary)
 
 });
 

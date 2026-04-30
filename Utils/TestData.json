@@ -6,8 +6,11 @@
     "branch" : "Hyderabad",
     "department" : "Software",
     "employeename" : "G Sathish Kumar",
-    "employeeid" : "CELN00189",
-    "supervisorname" : "Manasani Rashmi",
+    "employeeid" : "CELN00210",
+    "supervisorname" : "Roshni Guhathakurta",
     "username" : "sathish.kumar@celsiortech.com",
-    "password" : "Raju@789"
+    "password" : "Raju@789",
+    "month" : "March",
+    "dob" : "03-Mar",
+    "anniversary" : "09-Dec"
 }

@@ -1,7 +1,7 @@
 
 import { defineConfig, devices } from '@playwright/test';
-import { worker } from 'node:cluster';
-import { Worker } from 'node:worker_threads';
+
+
 
 
 const config = ({

@@ -10,6 +10,7 @@ export class ContentPage{
         this.infoDesk = this.contentPageFrame.locator("#PCIMenut66");
         this.reports = this.contentPageFrame.locator("#PCIMenut67");
         this.yourSupervisor = this.contentPageFrame.locator("#PCIMenut68");
+        this.DOBandAnniversary = this.contentPageFrame.locator("#PCIMenut69");
 
     }
 
@@ -27,6 +28,12 @@ export class ContentPage{
         await this.infoDesk.click();
         await this.reports.click();
         await this.yourSupervisor.click()
+    }
+
+    async navigateDOBandAnniversary(){
+        await this.infoDesk.click();
+        await this.reports.click();
+        await this.DOBandAnniversary.click();
     }
 
 }
