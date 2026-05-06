@@ -1,29 +1,29 @@
 import { LoginPage } from './LoginPage';
 import { ContentPage } from './ContentPage';
 import { MainPage } from './MainPage';
-import { Utils } from '../Utils/Utils';
 
-export class POManager{
-    constructor(page){
+export class POManager {
+    constructor(page) {
         this.page = page;
+
+        //Instances for page object classes
         this.loginPage = new LoginPage(this.page);
         this.contentPage = new ContentPage(this.page);
         this.mainPage = new MainPage(this.page);
-        this.utils = new Utils(this.page);
     }
-    getLoginPageObject(){
+    getLoginPageObject() {
         return this.loginPage;
     }
 
-    getContentPageObject(){
+    getContentPageObject() {
         return this.contentPage;
     }
 
-    getMainPageobject(){
+    getMainPageobject() {
         return this.mainPage;
     }
 
-    getUtilsObject(){
+    getUtilsObject() {
         return this.utils;
     }
 }

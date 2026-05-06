@@ -1,11 +1,28 @@
 import ExcelJS from 'exceljs';
 
-export class Utils {
+export class EnvHelper {
+
     map = new Map();
     constructor() {
 
     }
 
+    getCredentials(userData) {
+        if (userData.username && userData.password) {
+            return {
+                username: process.env[userData.username],
+                password: process.env[userData.password]
+            };
+        }
+
+        // For negative scenarios (hardcoded invalid users)
+        return {
+            username: process.env[userData.username],
+            password: process.env[userData.password]
+        };
+    }
+
+    //to read credentials from excel
     async getTestData(user) {
         const workBook = new ExcelJS.Workbook();
         await workBook.xlsx.readFile("C:/Users/SATHISH.KUMAR/WokingProjects/Pcore Automation with Playwright/TestData.xlsx");
@@ -21,10 +38,12 @@ export class Utils {
         return this.map;
     }
 
-    getCredDetails() {
+    async getCredDetails() {
         this.map.set("userName", "aaaaa");
         this.map.set("password", "bbbb");
         //this.map.set("URL", "https://pyramidcore.pyramidci.com/security/PCILoginNew.aspx");
         return this.map;
     }
-}
+
+};
+

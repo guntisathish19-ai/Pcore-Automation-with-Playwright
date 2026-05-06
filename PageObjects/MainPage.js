@@ -1,6 +1,9 @@
-export class MainPage {
+import { BasePage } from "./BasePage";
+
+export class MainPage extends BasePage {
     message;
     constructor(page) {
+        super(page)
         this.page = page;
         this.mainPageFrame = page.frameLocator("frame[name='main']");
         this.ticket = this.mainPageFrame.getByPlaceholder("--Select--").nth(2);
@@ -35,10 +38,10 @@ export class MainPage {
     }
 
     async updateTicketDetails() {
-        await this.ticket.click();
-        await this.project.click();
-        await this.group.selectOption("Quality");
-        await this.activity.selectOption("QA & Testing");
+        await this.click(this.ticket);
+        await this.click(this.project);
+        await this.selectOption(this.group, "Quality");
+        await this.selectOption(this.activity, "QA & Testing");
     }
 
     async updateHours() {
@@ -91,7 +94,7 @@ export class MainPage {
             return upload;
         }
         catch (error) {
-            console.log(error)
+            console.log("Failed to upate certificate details")
             throw error;
         }
     }
@@ -123,7 +126,7 @@ export class MainPage {
             return message;
         }
         catch (error) {
-            console.log(error)
+            console.log("Failed to add contact details")
             throw error;
         }
 
@@ -146,7 +149,7 @@ export class MainPage {
 
         }
         catch (error) {
-            console.log(error)
+            console.log("failed to update contact details")
             throw error;
         }
     }
@@ -182,7 +185,7 @@ export class MainPage {
             return found;
         }
         catch (error) {
-            console.log(error)
+            console.log("Not able to delete contact")
             throw error;
         }
     }
@@ -199,7 +202,7 @@ export class MainPage {
             return message;
         }
         catch (error) {
-            console.log(error);
+            console.log("Not able to verify supervisor");
             throw error;
         }
     }
@@ -217,7 +220,7 @@ export class MainPage {
             return message;
         }
         catch (error) {
-            console.log(error);
+            console.log("Not able to verify DOB of employee");
             throw error;
         }
 
@@ -236,7 +239,7 @@ export class MainPage {
             return message;
         }
         catch (error) {
-            console.log(error);
+            console.log("Not able to verify Anniversary of an employee");
             throw error;
         }
     }

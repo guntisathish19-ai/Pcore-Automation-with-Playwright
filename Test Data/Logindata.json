@@ -1,0 +1,22 @@
+{
+  "validUser": {
+    "username": "PCI_VALID_USERNAME",
+    "password": "PCI_VALID_PASSWORD"
+  },
+  "invalidUser": {
+    "username": "INVALID_USER",
+    "password": "PCI_VALID_PASSWORD"
+  },
+  "invalidPassword": {
+    "username": "PCI_VALID_USERNAME",
+    "password": "WRONG_PASSWORD"
+  },
+  "emptyPassword": {
+    "username": "PCI_VALID_USERNAME",
+    "password": "EMPTY_PASSWORD"
+  },
+  "emptyUsername": {
+    "username": "EMPTY_USER",
+    "password": "PCI_VALID_PASSWORD"
+  }
+}

@@ -1,7 +1,7 @@
 const { POManager } = require('../PageObjects/POManager');
 const { test, expect } = require('@playwright/test');
 const { BrowserSetup } = require('../BrowserSetup')
-const data = JSON.parse(JSON.stringify(require('../Utils/TestData.json')));
+const data = JSON.parse(JSON.stringify(require('../Test Data/TestData.json')));
 
 
 test.beforeEach(async ({page}) => {
@@ -9,7 +9,7 @@ test.beforeEach(async ({page}) => {
     const poManager = new POManager(page);
     const loginPage = poManager.getLoginPageObject();
     await loginPage.goto();
-    const message = await loginPage.login(data.username, data.password);
+    const message = await loginPage.userLogin(data.username, data.password);
     expect(message).toBe(" Home ")
     
 });
@@ -27,7 +27,7 @@ test('Timesheet update test', async ({page}) => {
 
 });
 
-test('Add Emergency contact detail', async ({page})=>{
+test.only('Add Emergency contact detail', async ({page})=>{
     
     const poManager = new POManager(page);
     const contentPage = poManager.getContentPageObject();
@@ -97,7 +97,7 @@ test('verify DOB of an Employee', async ({page})=>{
 
 });
 
-test.only('verify Anniversary of an Employee', async ({page})=>{
+test('verify Anniversary of an Employee', async ({page})=>{
 
     const poManager = new POManager(page);
     const contentPage = poManager.getContentPageObject();
@@ -108,7 +108,8 @@ test.only('verify Anniversary of an Employee', async ({page})=>{
 
 });
 
-test.afterAll(()=>{
+test.afterAll(async ({page})=>{
+    await page.clsoe()
     console.log("All tests finished execution and browser closed");
 });
 
