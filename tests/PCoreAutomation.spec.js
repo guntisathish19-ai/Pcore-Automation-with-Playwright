@@ -43,8 +43,6 @@ test('Timesheet update test', async ({ page }) => {
         expect(await mainPageFrame.locator(".notifier__notification-message").textContent()).toBe("Timesheet saved successfully");
     }
 
-    await page.pause();
-
 });
 
 test.only('Certification upload test', async ({ page }) => {
@@ -67,23 +65,21 @@ test.only('Certification upload test', async ({ page }) => {
     await mainPageFrame.locator("input[value='Qualification']").click();
 
     //Certificate section
-    try{
-    await mainPageFrame.locator("select[name='ddlCertificate']").selectOption("The Complete Prompt Engineering for AI");
-    await mainPageFrame.locator("#ddlCertificateProvider").waitFor({ state: "visible" });
-    await mainPageFrame.locator("#ddlCertificateProvider").selectOption({ value: "6" });
-    await mainPageFrame.locator("#ddlCertificateProvider").selectOption({ label: "Udemy" });
-    await mainPageFrame.locator("#ddlCertificateCayegory").locator("option", { hasText: "AI/ML" }).waitFor();
-    await mainPageFrame.locator("#ddlCertificateCayegory").selectOption("AI/ML");
-    await mainPageFrame.locator("#FileUploadCertificate").setInputFiles("C:/Users/SATHISH.KUMAR/Downloads/AI Boot camp 2025.pdf");
-    await mainPageFrame.locator("input#txtcert_date").click();
-    await mainPageFrame.locator(".ui-state-default.ui-state-highlight").waitFor({ state: "visible" });
-    await mainPageFrame.locator(".ui-state-default.ui-state-highlight").click();
-    console.log(await mainPageFrame.locator("#txtcert_date").inputValue())
+    try {
+        await mainPageFrame.locator("select[name='ddlCertificate']").selectOption("The Complete Prompt Engineering for AI");
+        await mainPageFrame.locator("#ddlCertificateProvider").waitFor({ state: "visible" });
+        await mainPageFrame.locator("#ddlCertificateProvider").selectOption({ value: "6" });
+        await mainPageFrame.locator("#ddlCertificateProvider").selectOption({ label: "Udemy" });
+        await mainPageFrame.locator("#ddlCertificateCayegory").locator("option", { hasText: "AI/ML" }).waitFor();
+        await mainPageFrame.locator("#ddlCertificateCayegory").selectOption("AI/ML");
+        await mainPageFrame.locator("#FileUploadCertificate").setInputFiles("C:/Users/SATHISH.KUMAR/Downloads/AI Boot camp 2025.pdf");
+        await mainPageFrame.locator("input#txtcert_date").click();
+        await mainPageFrame.locator(".ui-state-default.ui-state-highlight").waitFor({ state: "visible" });
+        await mainPageFrame.locator(".ui-state-default.ui-state-highlight").click();
+        console.log(await mainPageFrame.locator("#txtcert_date").inputValue())
     }
-    catch(e){
+    catch (e) {
         console.log(e)
     }
 
-
-    await page.pause();
 });

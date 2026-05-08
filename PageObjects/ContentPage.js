@@ -4,6 +4,8 @@ export class ContentPage extends BasePage{
     
     constructor(page){
         super(page)
+
+        //Locators
         this.page = page;
         this.contentPageFrame = page.frameLocator("frame[name='contents']");
         this.timesheet = this.contentPageFrame.locator("#PCIMenut28");
@@ -15,7 +17,6 @@ export class ContentPage extends BasePage{
         this.yourSupervisor = this.contentPageFrame.locator("#PCIMenut68");
         this.DOBandAnniversary = this.contentPageFrame.locator("#PCIMenut69");
     }
-    //basePage = new BasePage(this.page)
 
 
     async getMyTimesheet(){

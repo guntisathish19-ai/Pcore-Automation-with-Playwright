@@ -1,9 +1,12 @@
 import { BasePage } from "./BasePage";
+import { expect } from "@playwright/test"
 
 export class MainPage extends BasePage {
     message;
     constructor(page) {
         super(page)
+
+        //Locators
         this.page = page;
         this.mainPageFrame = page.frameLocator("frame[name='main']");
         this.ticket = this.mainPageFrame.getByPlaceholder("--Select--").nth(2);
@@ -123,7 +126,7 @@ export class MainPage extends BasePage {
             await this.recordAdded.waitFor({ state: 'visible' });
             const message = await this.recordAdded.textContent();
             console.log(message);
-            return message;
+            return message
         }
         catch (error) {
             console.log("Failed to add contact details")

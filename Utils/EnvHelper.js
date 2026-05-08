@@ -7,6 +7,7 @@ export class EnvHelper {
 
     }
 
+    // to read credentials from .env file
     getCredentials(userData) {
         if (userData.username && userData.password) {
             return {
@@ -38,6 +39,7 @@ export class EnvHelper {
         return this.map;
     }
 
+    //to store credentails and return
     async getCredDetails() {
         this.map.set("userName", "aaaaa");
         this.map.set("password", "bbbb");

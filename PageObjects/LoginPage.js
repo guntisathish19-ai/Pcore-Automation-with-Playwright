@@ -7,7 +7,7 @@ export class LoginPage extends BasePage {
     super(page)
     this.page = page;
 
-    // ✅ Locators
+    //Locators
     this.usernameInput = 'input[name="pydLogin$txtUserid"]';
     this.passwordInput = 'input[name="pydLogin$txtUserPwd"]';
     this.logInButton = 'input[name="pydLogin$btnLogin"]';
@@ -21,7 +21,7 @@ export class LoginPage extends BasePage {
     this.homeEle = this.topPage.locator("a[href='../Home/PCIhome.aspx'] span");
   }
 
-  // ✅ Navigate to Login Page
+  // Navigate to Login Page
   async navigateToLoginPage() {
     await this.page.goto(
       'https://pyramidcore.pyramidci.com/security/PCILoginNew.aspx',
@@ -29,17 +29,17 @@ export class LoginPage extends BasePage {
     );
   }
 
-  // ✅ Enter Username
+  // Enter Username
   async enterUserName(username) {
     await this.page.fill(this.usernameInput, username);
   }
 
-  // ✅ Enter Password
+  // Enter Password
   async enterPassword(password) {
     await this.page.fill(this.passwordInput, password);
   }
 
-  // ✅ Click Login Button
+  // Click Login Button
   async clickLogin() {
     await this.page.click(this.logInButton);
   }
@@ -56,7 +56,7 @@ export class LoginPage extends BasePage {
     await this.loginButton.click()
   }
 
-  // ✅ Generic Login Action (Reusable)
+  // Generic Login Action (Reusable)
   async login(username, password) {
     await this.enterUserName(username);
     await this.enterPassword(password);
@@ -83,9 +83,7 @@ export class LoginPage extends BasePage {
     }
   }
 
-  // ==========================
-  // ✅ POSITIVE SCENARIO METHODS
-  // ==========================
+  // POSITIVE SCENARIO METHODS
 
   async loginWithValidCredentials(username, password) {
     await this.login(username, password);
@@ -96,9 +94,7 @@ export class LoginPage extends BasePage {
     });
   }
 
-  // ==========================
-  // ✅ NEGATIVE SCENARIO METHODS
-  // ==========================
+  // NEGATIVE SCENARIO METHODS
 
   async loginWithInvalidCredentials(username, password) {
     await this.login(username, password);

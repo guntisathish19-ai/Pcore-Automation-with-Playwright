@@ -4,39 +4,24 @@ export class BasePage {
         this.page = page;
     }
 
-    async click(element, options = {}) {
-        const {
-            timeout = 5000,
-            force = false,
-            retries = 2
-        } = options;
-
-        for (let i = 0; i <= retries; i++) {
-            try {
-                await element.waitFor({ state: 'visible', timeout });
-                await element.scrollIntoViewIfNeeded();
-                await element.click({ timeout, force });
-                return;
-            } catch (err) {
-                if (i === retries) console.log(`${element} was not clickable`);
-
-                console.log(`Retrying click (${i + 1}) on ${element}`);
-                await page.waitForTimeout(500);
-            }
+    async click(element) {
+        try {
+            await element.waitFor({ state: 'visible'});
+            await element.scrollIntoViewIfNeeded();
+            await element.click();
+            return;
+        } catch (err) {
+            console.log(`Retrying click with ${element}`);
+            await this.page.waitForTimeout(500);
         }
+
     }
 
-    async selectOption(element, option, options = {}) {
-        const {
-            timeout = 5000,
-            force = false,
-            retries = 2,
-        } = options;
-
+    async selectOption(element, option) {
         try {
-            await element.waitFor({ state: 'visible', timeout })
+            await element.waitFor({ state: 'visible'})
             await element.scrollIntoViewIfNeeded()
-            await element.selectOption(option, { timeout, force })
+            await element.selectOption(option)
         }
         catch (err) {
             throw new Error(
@@ -53,19 +38,19 @@ export class BasePage {
         }
     }
 
-    async clear(element){
-        if(element.isEditable()){
+    async clear(element) {
+        if (element.isEditable()) {
             await element.press('Control+A');
             await element.press('Delete');
             await element.clear()
         }
         else
-            console.log("Element is not in interactable or editable: "+element)
+            console.log("Element is not in interactable or editable: " + element)
     }
 
-    async getText(element){
-        await element.waitFor({state:'visible', timeout: 3000})
-        if(element.isVisible()){
+    async getText(element) {
+        await element.waitFor({ state: 'visible', timeout: 3000 })
+        if (element.isVisible()) {
             return element.textContent()
         }
         else

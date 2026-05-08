@@ -1,16 +1,22 @@
 
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
 
+// ✅ Load .env file
+dotenv.config();
 
-const config = ({
+export default defineConfig({
   testDir: './tests',
-    timeout: 40*1000,
-    retries: 2,
-    workers: 5,
-  expect:{
-    timeout: 30*1000,
+  timeout: 40 * 1000,
+  retries: 1,
+  workers: 5,
+
+  expect: {
+    timeout: 30 * 1000,
   },
+
   reporter: [['html', { open: 'on-failure' }]],
+
   projects: [
     {
       name: 'chrome',
@@ -18,11 +24,11 @@ const config = ({
         trace: 'only-on-failure',
         browserName: 'chromium',
         screenshot: 'only-on-failure',
-        headless: false, 
+        headless: false,
         launchOptions: {
           args: ['--start-maximized'],
         },
-        viewport:null,
+        viewport: null,
       },
     },
     {
@@ -31,7 +37,7 @@ const config = ({
         trace: 'only-on-failure',
         browserName: 'webkit',
         screenshot: 'only-on-failure',
-        headless: false, 
+        headless: false,
       },
     },
     {
@@ -40,14 +46,12 @@ const config = ({
         trace: 'only-on-failure',
         browserName: 'firefox',
         screenshot: 'only-on-failure',
-        headless: false, 
+        headless: false,
         launchOptions: {
           args: ['--start-maximized'],
         },
-        viewport:null,
-      }
-    }
-  ]
+        viewport: null,
+      },
+    },
+  ],
 });
-
-module.exports = config;

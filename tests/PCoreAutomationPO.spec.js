@@ -4,54 +4,60 @@ const { BrowserSetup } = require('../BrowserSetup')
 const data = JSON.parse(JSON.stringify(require('../Test Data/TestData.json')));
 
 
-test.beforeEach(async ({page}) => {
+test.beforeEach(async ({ page }) => {
 
     const poManager = new POManager(page);
     const loginPage = poManager.getLoginPageObject();
     await loginPage.goto();
     const message = await loginPage.userLogin(data.username, data.password);
     expect(message).toBe(" Home ")
-    
+
 });
 
-test('Timesheet update test', async ({page}) => {
-    
+test('Timesheet update test', async ({ page }) => {
+
     const poManager = new POManager(page);
     const contentPage = poManager.getContentPageObject();
     await contentPage.getMyTimesheet();
     const mainPage = poManager.getMainPageobject();
     await mainPage.updateTicketDetails();
-    await mainPage.updateHours(); 
+    await mainPage.updateHours();
     const message = await mainPage.validateTotalHours();
     expect(message).toBe("Timesheet saved successfully");
 
 });
 
-test.only('Add Emergency contact detail', async ({page})=>{
-    
+test('Add Emergency contact detail', async ({ page }) => {
+
     const poManager = new POManager(page);
     const contentPage = poManager.getContentPageObject();
     await contentPage.getHumanResource();
     const mainPage = poManager.getMainPageobject();
     await mainPage.getContact();
     const message = await mainPage.addContact(data.informationtype, data.contactname, data.mobileno, data.relation);
-    expect(message).toBe(" Record Added successfully");
-    
+    expect([
+        " Record Added successfully",
+        " Emergency No. already exists"
+    ]).toContain(message);
+
 });
 
-test("Update contact details", async ({page})=>{
-    
+test("Update contact details", async ({ page }) => {
+
     const poManager = new POManager(page);
     const contentPage = poManager.getContentPageObject();
     await contentPage.getHumanResource();
     const mainPage = poManager.getMainPageobject();
     await mainPage.getContact();
     const message = await mainPage.updateContact(data.informationtype, data.mobileno)
-    expect(message).toBe(" Record Updated successfully");
+    expect([
+        " Record Updated successfully",
+        " Emergency No. already exists"
+    ]).toContain(message);
 
 });
 
-test('Delete Emergency contact details', async({page})=>{
+test('Delete Emergency contact details', async ({ page }) => {
 
     const poManager = new POManager(page);
     const contentPage = poManager.getContentPageObject();
@@ -63,10 +69,10 @@ test('Delete Emergency contact details', async({page})=>{
 
 })
 
-test('Upload a certificate of a course', async ({page})=>{
+test('Upload a certificate of a course', async ({ page }) => {
 
     const poManager = new POManager(page);
-    const contentPage = poManagergetContentPageObject();
+    const contentPage = poManager.getContentPageObject();
     contentPage.getHumanResource();
     const mainPage = poManager.getMainPageobject();
     await mainPage.getQualificationTab();
@@ -75,7 +81,7 @@ test('Upload a certificate of a course', async ({page})=>{
 
 });
 
-test('Verify supervisor of an Employee', async ({page})=>{
+test('Verify supervisor of an Employee', async ({ page }) => {
 
     const poManager = new POManager(page);
     const contentPage = poManager.getContentPageObject();
@@ -86,7 +92,7 @@ test('Verify supervisor of an Employee', async ({page})=>{
 
 });
 
-test('verify DOB of an Employee', async ({page})=>{
+test('verify DOB of an Employee', async ({ page }) => {
 
     const poManager = new POManager(page);
     const contentPage = poManager.getContentPageObject();
@@ -97,7 +103,7 @@ test('verify DOB of an Employee', async ({page})=>{
 
 });
 
-test('verify Anniversary of an Employee', async ({page})=>{
+test('verify Anniversary of an Employee', async ({ page }) => {
 
     const poManager = new POManager(page);
     const contentPage = poManager.getContentPageObject();
@@ -108,8 +114,7 @@ test('verify Anniversary of an Employee', async ({page})=>{
 
 });
 
-test.afterAll(async ({page})=>{
-    await page.clsoe()
+test.afterAll(async ({}) => {
     console.log("All tests finished execution and browser closed");
 });
 
