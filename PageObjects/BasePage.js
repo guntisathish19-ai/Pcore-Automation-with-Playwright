@@ -9,7 +9,6 @@ export class BasePage {
             await element.waitFor({ state: 'visible'});
             await element.scrollIntoViewIfNeeded();
             await element.click();
-            return;
         } catch (err) {
             console.log(`Retrying click with ${element}`);
             await this.page.waitForTimeout(500);
@@ -56,5 +55,11 @@ export class BasePage {
         else
             return "Element is not visible or not interactble"
     }
+
+    async getAndAcceptAlert() {
+    const message = dialog.message();
+    await dialog.accept();
+    return message;
+  }
 
 }

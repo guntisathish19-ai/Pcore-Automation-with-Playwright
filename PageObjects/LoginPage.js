@@ -12,8 +12,6 @@ export class LoginPage extends BasePage {
     this.passwordInput = 'input[name="pydLogin$txtUserPwd"]';
     this.logInButton = 'input[name="pydLogin$btnLogin"]';
     this.loginErrorMessage = '#pydLogin_lblMsg'; // adjust if needed
-
-    //added
     this.userIdElement = page.locator("#pydLogin_txtUserid");
     this.pwdElement = page.locator("#pydLogin_txtUserPwd");
     this.loginButton = page.locator("#pydLogin_btnLogin");
@@ -24,7 +22,7 @@ export class LoginPage extends BasePage {
   // Navigate to Login Page
   async navigateToLoginPage() {
     await this.page.goto(
-      'https://pyramidcore.pyramidci.com/security/PCILoginNew.aspx',
+      '/security/PCILoginNew.aspx',
       { waitUntil: 'networkidle' }
     );
   }
@@ -44,15 +42,15 @@ export class LoginPage extends BasePage {
     await this.page.click(this.logInButton);
   }
 
-  async userId(username){
+  async userId(username) {
     await this.userIdElement.fill(username)
   }
 
-  async password(password){
+  async password(password) {
     await this.pwdElement.fill(password)
   }
 
-  async loginBut(){
+  async loginBut() {
     await this.loginButton.click()
   }
 
@@ -63,22 +61,20 @@ export class LoginPage extends BasePage {
     await this.clickLogin();
   }
 
-   async loginWithUsername(username) {
-    try{
-    await this.userId(username);
-    await this.loginBut();
+  async loginWithUsername(username) {
+    try {
+      await this.userId(username);
     }
-    catch(error){
-    throw new error;
+    catch (error) {
+      throw new error;
     }
   }
 
-   async loginWithPassword(password) {
-    try{
-    await this.password(password);
-    await this.loginBut();
+  async loginWithPassword(password) {
+    try {
+      await this.password(password);
     }
-    catch(error){
+    catch (error) {
       throw new error
     }
   }
@@ -87,7 +83,7 @@ export class LoginPage extends BasePage {
 
   async loginWithValidCredentials(username, password) {
     await this.login(username, password);
-
+    console.log(`Logged in with user Id: ${username}`)
     // Wait for navigation or dashboard indicator
     await this.page.waitForURL(/Home|Dashboard|Main/i, {
       timeout: 15000,
@@ -98,20 +94,52 @@ export class LoginPage extends BasePage {
 
   async loginWithInvalidCredentials(username, password) {
     await this.login(username, password);
+    console.log(`Logged in with invalid user/password`)
     await this.waitForLoginError();
     console.log(this.getLoginErrorMessage)
   }
 
-   async loginWithEmptyPassword(username) {
+  async loginWithEmptyPassword(username) {
     await this.loginWithUsername(username)
-    await console.log(this.waitForAlertMeesage())
-    await this.waitForAlerAccept()
+    return new Promise(async (resolve, reject) => {
+      this.page.once('dialog', async dialog => {
+        try {
+          const alertMessage = dialog.message();
+          console.log('Password was not entered:', alertMessage);
+          await dialog.accept();
+          resolve(alertMessage)
+        }
+        catch (err) {
+          reject(err)
+        }
+      });
+
+      // Do NOT await the click
+      this.loginButton.click();
+
+
+    });
+
   }
 
-   async loginWithEmptyUsername(password) {
+  async loginWithEmptyUsername(password) {
     await this.loginWithPassword(password)
-    await console.log(this.waitForAlertMeesage())
-    await this.waitForAlerAccept()
+    return new Promise(async (resolve, reject) => {
+      this.page.once('dialog', async dialog => {
+        try {
+          const alertMessage = dialog.message();
+          console.log('User Id was not entered:', alertMessage);
+          await dialog.accept();
+          resolve(alertMessage)
+        }
+        catch (err) {
+          reject(err)
+        }
+      });
+
+      // Do NOT await the click
+      this.loginButton.click();
+    });
   }
 
   async waitForLoginError() {
@@ -124,21 +152,12 @@ export class LoginPage extends BasePage {
     return await this.page.textContent(this.loginErrorMessage);
   }
 
-  async waitForAlertMeesage(){
-    this.page.on('dialog', async dialog => {
-      return dialog.message()
-    });
-  }
 
-  async waitForAlerAccept(){
-    this.page.on('dialog', async dialog => {
-      await dialog.accept()
-    });
-  }
+
 
   //added
   async goto() {
-    await this.page.goto("https://pyramidcore.pyramidci.com/security/PCILoginNew.aspx", { waitUntil: 'domcontentloaded' });
+    await this.page.goto("/security/PCILoginNew.aspx", { waitUntil: 'networkidle' });
     //await this.page.waitForLoadState('networkidle');
   }
 

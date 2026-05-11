@@ -5,9 +5,9 @@ export class MainPage extends BasePage {
     message;
     constructor(page) {
         super(page)
+        this.page = page;
 
         //Locators
-        this.page = page;
         this.mainPageFrame = page.frameLocator("frame[name='main']");
         this.ticket = this.mainPageFrame.getByPlaceholder("--Select--").nth(2);
         this.project = this.mainPageFrame.getByText("Playwright & GW Upskilling");
@@ -16,7 +16,7 @@ export class MainPage extends BasePage {
         this.selectHoursEle = this.mainPageFrame.locator("div.containermain:nth-child(6) select[id='selectedHour']");
         this.totalHoursEle = this.mainPageFrame.locator(".weekTotalLow").nth(0);
         this.save = this.mainPageFrame.getByRole("button", { name: "Save" });
-        this.message = this.mainPageFrame.locator(".notifier__notification-message");
+        this.mesage = this.mainPageFrame.locator(".notifier__notification-message");
         this.qualification = this.mainPageFrame.locator("input[value='Qualification']");
         this.certificate = this.mainPageFrame.locator("select[name='ddlCertificate']");
         this.certificateProvider = this.mainPageFrame.locator("#ddlCertificateProvider");
@@ -68,7 +68,8 @@ export class MainPage extends BasePage {
         }
         else {
             await this.save.click();
-            this.message = await this.message.textContent();
+            this.message = await this.mesage.textContent();
+            console.log(this.message)
         }
         return this.message;
     }
@@ -177,6 +178,7 @@ export class MainPage extends BasePage {
                 if (firstCellText === contact) {
                     await row.locator('td').nth(7).click();
                     found = true;
+                    console.log("Contact deleted successfully")
                     break;
                 }
             }

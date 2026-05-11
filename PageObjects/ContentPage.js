@@ -4,9 +4,9 @@ export class ContentPage extends BasePage{
     
     constructor(page){
         super(page)
+        this.page = page;
 
         //Locators
-        this.page = page;
         this.contentPageFrame = page.frameLocator("frame[name='contents']");
         this.timesheet = this.contentPageFrame.locator("#PCIMenut28");
         this.myTimesheet = this.contentPageFrame.locator("#PCIMenut29");

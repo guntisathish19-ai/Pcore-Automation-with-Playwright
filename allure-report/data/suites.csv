@@ -1,0 +1,6 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","7165","Login with valid credentials","chrome","2026-05-11","passed","2026-05-11","","LoginTest.spec.js","",""
+"","2532","Login with empty password","chrome","2026-05-11","passed","2026-05-11","","LoginTest.spec.js","",""
+"","2748","Login with empty username","chrome","2026-05-11","passed","2026-05-11","","LoginTest.spec.js","",""
+"","4743","Login with invalid password","chrome","2026-05-11","passed","2026-05-11","","LoginTest.spec.js","",""
+"","5145","Login with invalid user","chrome","2026-05-11","passed","2026-05-11","","LoginTest.spec.js","",""
