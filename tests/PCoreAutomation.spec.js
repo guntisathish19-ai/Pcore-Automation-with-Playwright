@@ -45,7 +45,7 @@ test('Timesheet update test', async ({ page }) => {
 
 });
 
-test.only('Certification upload test', async ({ page }) => {
+test('Certification upload test', async ({ page }) => {
 
     //Login page
     await page.goto("https://pyramidcore.pyramidci.com/security/PCILoginNew.aspx", { waitUntil: 'domcontentloaded' })
