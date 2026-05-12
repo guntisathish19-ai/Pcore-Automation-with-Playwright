@@ -1,0 +1,3 @@
+Login succesfull with user:sathish.kumar@celsiortech.com
+Alert message:Are you sure you want to delete ?
+Contact deleted successfully

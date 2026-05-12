@@ -28,7 +28,9 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npx playwright test
+        env:
+          CI: true
+        run: npx playwright test --config=playwright.nightly.config.js
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
