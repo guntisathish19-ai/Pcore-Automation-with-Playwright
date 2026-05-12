@@ -21,7 +21,7 @@ const projects = {
     channel: 'chrome',
     trace: 'only-on-failure',
     screenshot: 'only-on-failure',
-    headless: false,
+    headless: true,
     launchOptions: {
       args: ['--start-maximized'],
     },
@@ -31,7 +31,7 @@ const projects = {
     browserName: 'firefox',
     trace: 'only-on-failure',
     screenshot: 'only-on-failure',
-    headless: false,
+    headless: true,
     launchOptions: {
       args: ['--start-maximized'],
     },
@@ -41,7 +41,7 @@ const projects = {
     browserName: 'webkit',
     trace: 'only-on-failure',
     screenshot: 'only-on-failure',
-    headless: false,
+    headless: true,
   },
 };
 
@@ -56,7 +56,8 @@ export default defineConfig({
   },
 
   use: {
-    baseURL: envUrls[ENV],
+    baseURL: envUrls[ENV], 
+    headless: !!process.env.CI,
   },
 
   reporter: [['html', { open: 'on-failure' }],
