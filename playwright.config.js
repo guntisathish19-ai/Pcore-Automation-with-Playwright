@@ -21,7 +21,7 @@ const projects = {
     channel: 'chrome',
     trace: 'only-on-failure',
     screenshot: 'only-on-failure',
-    headless: false,
+    headless: true,
     launchOptions: {
       args: ['--start-maximized'],
     },

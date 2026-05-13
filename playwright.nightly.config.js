@@ -47,7 +47,7 @@ const envUrls = {
 export default defineConfig({
   testDir: './tests',
   timeout: 30 * 1000,
-  retries: 2,
+  retries: 1,
   workers: 5,
 
   expect: {

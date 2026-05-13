@@ -1,12 +1,13 @@
 export class BasePage {
 
-    constructor(page) {
+    constructor(page, logger) {
         this.page = page;
+        this.logger = logger;
     }
 
     async click(element) {
         try {
-            await element.waitFor({ state: 'visible'});
+            await element.waitFor({ state: 'visible' });
             await element.scrollIntoViewIfNeeded();
             await element.click();
         } catch (err) {
@@ -16,9 +17,25 @@ export class BasePage {
 
     }
 
+    // Enter Username
+    async enterUserName(username, element) {
+        await this.page.fill(element, username);
+    }
+
+    // Enter Password
+    async enterPassword(password, element) {
+        await this.page.fill(element, password);
+    }
+
+    // Click Login Button
+    async clickLogin(element) {
+        await this.page.click(element);
+    }
+
+
     async selectOption(element, option) {
         try {
-            await element.waitFor({ state: 'visible'})
+            await element.waitFor({ state: 'visible' })
             await element.scrollIntoViewIfNeeded()
             await element.selectOption(option)
         }
@@ -57,9 +74,24 @@ export class BasePage {
     }
 
     async getAndAcceptAlert() {
-    const message = dialog.message();
-    await dialog.accept();
-    return message;
-  }
+        const message = dialog.message();
+        await dialog.accept();
+        return message;
+    }
+
+
+    async userId(username, element) {
+        await element.fill(username)
+    }
+
+    async password(password, element) {
+        await element.fill(password)
+    }
+
+    async loginBut(element) {
+        await element.click()
+    }
+
+
 
 }

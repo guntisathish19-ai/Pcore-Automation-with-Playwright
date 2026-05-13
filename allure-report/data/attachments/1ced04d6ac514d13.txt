@@ -1,0 +1,5 @@
+[2026-05-13T16:47:04.717Z] [INFO] Test execution is started
+[2026-05-13T16:47:06.330Z] [INFO] [Browser verbose] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+[2026-05-13T16:47:06.914Z] [INFO] [Browser error] Failed to load resource: the server responded with a status of 404 ()
+[2026-05-13T16:47:08.490Z] [INFO] [Browser error] Failed to load resource: net::ERR_CONNECTION_CLOSED
+[2026-05-13T16:47:12.942Z] [INFO] successfully logged in with userId: sathish.kumar@celsiortech.com

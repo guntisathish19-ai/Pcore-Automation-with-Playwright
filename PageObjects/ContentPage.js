@@ -2,9 +2,10 @@ import { BasePage } from "./BasePage";
 
 export class ContentPage extends BasePage{
     
-    constructor(page){
-        super(page)
+    constructor(page, logger){
+        super(page, logger)
         this.page = page;
+        this.logger = logger;
 
         //Locators
         this.contentPageFrame = page.frameLocator("frame[name='contents']");

@@ -1,10 +1,10 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('../Base/BaseTest');
 const testData = require('../Test Data/Logindata.json');
 const { EnvHelper } = require('../Utils/EnvHelper');
 const { POManager } = require('../PageObjects/POManager')
 
-test('Login with valid credentials', async ({ page }) => {
-  const poManager = new POManager(page);
+test('Login with valid credentials', async ({ page, logger }) => {
+  const poManager = new POManager(page, logger);
   const loginPage = poManager.getLoginPageObject()
   const envHelper = new EnvHelper()
   const creds = envHelper.getCredentials(testData.validUser)
@@ -14,14 +14,13 @@ test('Login with valid credentials', async ({ page }) => {
     creds.username,
     creds.password
   );
-  await expect(page).toHaveTitle(/Pyramid|Main/i);
   await expect(page).toHaveTitle("PyramidCore Home Page.")
 
 });
 
 
-test('Login with invalid user', async ({ page }) => {
-  const poManager = new POManager(page);
+test('Login with invalid user', async ({ page, logger }) => {
+  const poManager = new POManager(page, logger);
   const loginPage = poManager.getLoginPageObject();
   const envHelper = new EnvHelper()
   const creds = envHelper.getCredentials(testData.invalidUser)
@@ -37,8 +36,8 @@ test('Login with invalid user', async ({ page }) => {
 });
 
 
-test('Login with invalid password', async ({ page }) =>{
-  const poManager = new POManager(page);
+test('Login with invalid password', async ({ page, logger }) =>{
+  const poManager = new POManager(page, logger);
   const loginPage = poManager.getLoginPageObject();
   const envHelper = new EnvHelper()
   const creds = envHelper.getCredentials(testData.invalidPassword)
@@ -54,8 +53,8 @@ test('Login with invalid password', async ({ page }) =>{
 })
 
 
-test('Login with empty password', async ({ page }) =>{
-  const poManager = new POManager(page);
+test('Login with empty password', async ({ page, logger }) =>{
+  const poManager = new POManager(page, logger);
   const loginPage = poManager.getLoginPageObject();
   const envHelper = new EnvHelper()
   const creds = envHelper.getCredentials(testData.emptyPassword)
@@ -69,8 +68,8 @@ test('Login with empty password', async ({ page }) =>{
 })
 
 
-test('Login with empty username', async ({ page }) =>{
-  const poManager = new POManager(page);
+test('Login with empty username', async ({ page, logger }) =>{
+  const poManager = new POManager(page, logger);
   const loginPage = poManager.getLoginPageObject();
   const envHelper = new EnvHelper()
   const creds = envHelper.getCredentials(testData.emptyUsername)

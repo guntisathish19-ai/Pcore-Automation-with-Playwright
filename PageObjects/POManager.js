@@ -3,13 +3,14 @@ import { ContentPage } from './ContentPage';
 import { MainPage } from './MainPage';
 
 export class POManager {
-    constructor(page) {
+    constructor(page, logger) {
         this.page = page;
+        this.logger = logger
 
         //Instances for page object classes
-        this.loginPage = new LoginPage(this.page);
-        this.contentPage = new ContentPage(this.page);
-        this.mainPage = new MainPage(this.page);
+        this.loginPage = new LoginPage(this.page, this.logger);
+        this.contentPage = new ContentPage(this.page, this.logger);
+        this.mainPage = new MainPage(this.page, this.logger);
     }
     getLoginPageObject() {
         return this.loginPage;

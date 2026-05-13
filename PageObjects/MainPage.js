@@ -3,9 +3,10 @@ import { expect } from "@playwright/test"
 
 export class MainPage extends BasePage {
     message;
-    constructor(page) {
-        super(page)
+    constructor(page, logger) {
+        super(page, logger)
         this.page = page;
+        this.logger = logger;
 
         //Locators
         this.mainPageFrame = page.frameLocator("frame[name='main']");

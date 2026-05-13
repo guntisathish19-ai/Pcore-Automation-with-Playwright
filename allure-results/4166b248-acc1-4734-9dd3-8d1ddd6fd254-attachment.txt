@@ -1,0 +1,4 @@
+[2026-05-13T16:47:13.395Z] [INFO] Test execution is started
+[2026-05-13T16:47:14.020Z] [INFO] [Browser verbose] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+[2026-05-13T16:47:17.586Z] [INFO] [Browser verbose] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+[2026-05-13T16:47:17.624Z] [INFO] * User not found

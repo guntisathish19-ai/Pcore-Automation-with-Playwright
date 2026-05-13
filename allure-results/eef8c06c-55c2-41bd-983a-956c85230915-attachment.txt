@@ -1,0 +1,5 @@
+[2026-05-13T16:47:18.658Z] [INFO] Test execution is started
+[2026-05-13T16:47:19.201Z] [INFO] [Browser verbose] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+[2026-05-13T16:47:19.743Z] [INFO] [Browser error] Failed to load resource: the server responded with a status of 404 ()
+[2026-05-13T16:47:20.785Z] [INFO] [Browser verbose] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+[2026-05-13T16:47:20.948Z] [INFO] * User not found Or User/Password not matching

@@ -1,0 +1,3 @@
+[2026-05-13T16:47:21.824Z] [INFO] Test execution is started
+[2026-05-13T16:47:22.300Z] [INFO] [Browser verbose] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+[2026-05-13T16:47:23.626Z] [INFO] Password was not entered: Please enter your Password
