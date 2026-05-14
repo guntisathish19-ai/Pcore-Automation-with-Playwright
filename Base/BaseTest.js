@@ -1,5 +1,5 @@
 import { test as base } from '@playwright/test';
-import { Logger } from '../Utils/logger';
+import { Logger } from '../Utils/Logger';
 import { browser } from '@playwright/test'
 
 export const test = base.extend({
